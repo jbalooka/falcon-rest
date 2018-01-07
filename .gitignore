@@ -102,3 +102,7 @@ ENV/
 
 # vscode files
 .vscode/
+
+
+#SQLite files
+*.db
