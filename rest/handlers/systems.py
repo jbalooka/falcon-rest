@@ -12,6 +12,7 @@ system_post_request_schema = {
 }
 
 class TeamcenterSystemsHandler(object):
+    @request_schema(system_post_request_schema)
     def on_post(self, req, resp):
-        TeamcenterSystem.create(system_name = req.get_json('system_name'))
+        TeamcenterSystem.create(**req.context['doc'])
         resp.status = falcon.HTTP_OK

@@ -1,6 +1,8 @@
 import peewee
 
+
 db = peewee.SqliteDatabase("my_app.db")
+
 
 class DatabaseRouter(object):
     def process_request(self, req, resp):
@@ -33,7 +35,8 @@ class DatabaseRouter(object):
                 that will be passed to the resource's responder
                 method as keyword arguments.
         """
-        db.connect()
+        if(db.is_closed):
+            db.get_conn()
 
     def process_response(self, req, resp, resource, req_succeeded):
         """Post-processing of the response (after routing).
@@ -48,5 +51,5 @@ class DatabaseRouter(object):
                 the framework processed and routed the request;
                 otherwise False.
         """
-        if req_succeeded:
+        if req_succeeded and not db.is_closed:
             db.close()
